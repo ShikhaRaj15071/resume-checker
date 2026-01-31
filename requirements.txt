@@ -1,0 +1,5 @@
+streamlit
+pypdf==3.17.4
+python-docx
+nltk
+
