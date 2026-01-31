@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import PyPDF2
+from pypdf import PdfReader
 import docx
 import nltk
 import re
@@ -34,9 +34,10 @@ if not os.path.exists(SKILLS_FILE):
 def extract_text(file):
     if file.name.endswith(".pdf"):
         text = ""
-        reader = PyPDF2.PdfReader(file)
-        for page in reader.pages:
-            page_text = page.extract_text()
+reader = PdfReader(file)
+for page in reader.pages:
+    page_text = page.extract_text()
+
             if page_text:
                 text += page_text
         return text.lower()
