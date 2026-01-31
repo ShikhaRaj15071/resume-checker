@@ -6,10 +6,13 @@ import nltk
 import re
 
 # ---------------- Ensure 'punkt' tokenizer is available ----------------
-try:
-    nltk.data.find("tokenizers/punkt")
-except LookupError:
+@st.cache_resource
+def download_nltk_data():
     nltk.download("punkt")
+    nltk.download("punkt_tab")
+
+download_nltk_data()
+
 
 # ---------------- Setup ----------------
 UPLOAD_FOLDER = "uploads"
@@ -74,16 +77,26 @@ def structure_feedback(resume_text):
 ACTION_VERBS = ["led","implemented","optimized","developed","designed","managed","automated","created","built"]
 
 def suggest_sentences(resume_text):
+    if not resume_text.strip():
+        return []
+
     sentences = nltk.tokenize.sent_tokenize(resume_text)
     suggestions = []
+
     for sent in sentences:
         sent_clean = sent.strip()
         if len(sent_clean.split()) < 5 or any(v in sent_clean for v in ACTION_VERBS):
             continue
-        suggestions.append(f"Rewrite using action verbs + impact: '{sent_clean[:80]}...'")
+
+        suggestions.append(
+            f"Rewrite using action verbs + impact: '{sent_clean[:80]}...'"
+        )
+
         if len(suggestions) >= 5:
             break
+
     return suggestions
+
 
 # ---------------- Resume-only ATS ----------------
 def ats_score_resume_only(resume_text, matched_skills, present_sections):
