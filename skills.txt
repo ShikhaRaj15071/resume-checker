@@ -1,0 +1,17 @@
+
+Python
+Java
+C++
+SQL
+HTML
+CSS
+JavaScript
+React
+Django
+Machine Learning
+Data Analysis
+AWS
+Git
+TensorFlow
+PyTorch
+
