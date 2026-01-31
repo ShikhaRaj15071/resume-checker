@@ -34,19 +34,23 @@ if not os.path.exists(SKILLS_FILE):
 def extract_text(file):
     if file.name.endswith(".pdf"):
         text = ""
-reader = PdfReader(file)
-for page in reader.pages:
-    page_text = page.extract_text()
+        reader = PdfReader(file)
 
+        for page in reader.pages:
+            page_text = page.extract_text()
             if page_text:
                 text += page_text
+
         return text.lower()
+
     elif file.name.endswith(".docx"):
         doc = docx.Document(file)
         return " ".join([p.text for p in doc.paragraphs]).lower()
+
     else:
         st.error("Only PDF and DOCX supported!")
         return ""
+
 
 # ---------------- Skill Matching ----------------
 def load_skills():
